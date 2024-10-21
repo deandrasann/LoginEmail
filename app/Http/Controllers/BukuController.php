@@ -19,6 +19,7 @@ class BukuController extends Controller
         return view('index', compact('data_buku', 'rowCount', 'totalPrice'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
