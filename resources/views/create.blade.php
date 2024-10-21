@@ -1,23 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Form Buku</title>
 </head>
 <body>
-    <h4>Edit Buku</h4>
-    <form method="post" action="{{ route('buku.store') }}">
-        @csrf
-        <div>Judul <input type="text" name="judul"></div>
-        <div>Penulis <input type="text" name="penulis"></div>
-        <div>Harga <input type="text" name="harga"></div>
-        <div>Tanggal Terbit <input type="date" name="tgl_terbit"></div>
-        <button type="submit">Simpan</button>
-    </form>
-    <a href="{{ url('buku') }}">Kembali</a>
-</div>
+    <div class="container mt-5">
+        <h4>Tambah Buku</h4>
+        <form method="post" action="{{ route('buku.store') }}">
+            @csrf
+            <div class="mb-3">
+                Judul <input type="text" name="judul" class="form-control" value="{{ old('judul') }}">
+                @error('judul')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                Penulis <input type="text" name="penulis" class="form-control" value="{{ old('penulis') }}">
+                @error('penulis')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                Harga <input type="text" name="harga" class="form-control" value="{{ old('harga') }}">
+                @error('harga')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                Tanggal Terbit <input type="date" name="tgl_terbit" class="form-control" value="{{ old('tgl_terbit') }}">
+                @error('tgl_terbit')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+        <a href="{{ url('buku') }}" class="btn btn-secondary mt-3">Kembali</a>
+    </div>
 </body>
 </html>
