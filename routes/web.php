@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\LoginRegisterController;
+use App\Http\Controllers\sendEmailController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,6 +31,8 @@ Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.dest
 Route::get('/buku/{id}/edit', [BukuController::class, 'edit'])->name('buku.edit');
 Route::post('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
 Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+Route::get('/send-email', [sendEmailController::class, 'index'])->name('send.email');
+Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
 
 // Routes untuk LoginRegisterController
 Route::controller(LoginRegisterController::class)->group(function() {

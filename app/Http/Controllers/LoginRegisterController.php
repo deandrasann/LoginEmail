@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Buku;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use App\Jobs\SendMailJob;
 use Illuminate\Support\Facades\Hash as Hash;
 
 class LoginRegisterController extends Controller
@@ -38,19 +39,26 @@ class LoginRegisterController extends Controller
      */
     public function store(Request $request)
     {
-        //register
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
+            'faculty' => 'required|string|max:250',
             'password' => 'required|min:8|confirmed'
         ]);
 
-        User::create([
+        // Buat pengguna baru
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'faculty' => $request->faculty,
             'password' => Hash::make($request->password)
         ]);
-        //habis register sekalian langsung login
+
+        // Kirim email menggunakan job dengan objek pengguna
+        dispatch(new SendMailJob($user));
+
+        // Langsung login setelah registrasi
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
@@ -93,7 +101,6 @@ class LoginRegisterController extends Controller
             ->withErrors([
                 'email' => 'Please login to access the dashboard.',
             ])->onlyInput('email');
-
     }
     /**
      * Log out the user from the application.

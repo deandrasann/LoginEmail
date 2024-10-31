@@ -7,22 +7,18 @@
             <div class="card-header">Register</div>
 
             <div class="card-body">
-                <form  
- method="POST" action="{{ route('register') }}">
+                <form action="{{ route('register') }}" method="post">
                     @csrf
 
                     <div class="row mb-3">
                         <label for="name" class="col-md-4 col-form-label text-md-end text-start">{{ __('Name') }}</label>
 
                         <div class="col-md-6">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
 
-                            @error('name')
-                                <span class="text-danger">  
-
-                                    {{ $errors->first('name') }}
-                                </span>
-                            @enderror
+                            @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
                         </div>
                     </div>
 
@@ -30,13 +26,23 @@
                         <label for="email" class="col-md-4 col-form-label text-md-end text-start">{{ __('Email Address') }}</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
 
-                            @error('email')
-                                <span class="text-danger">
-                                    {{ $errors->first('email') }}
-                                </span>
-                            @enderror
+                            @if ($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="faculty" class="col-md-4 col-form-label text-md-end text-start">{{ __('Faculty') }}</label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control @error('faculty') is-invalid @enderror" id="faculty" name="faculty" value="{{ old('faculty') }}" required>
+
+                            @if ($errors->has('faculty'))
+                                <span class="text-danger">{{ $errors->first('faculty') }}</span>
+                            @endif
                         </div>
                     </div>
 
@@ -44,35 +50,31 @@
                         <label for="password" class="col-md-4 col-form-label text-md-end text-start">{{ __('Password') }}</label>
 
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
 
-                            @error('password')
-                                <span class="text-danger">
-                                    {{ $errors->first('password') }}
-                                </span>
-                            @enderror
-                        </div>  
-
-                    </div>
-                    {{-- Laravel confirm password --}}
-                    <div class="row mb-3">
-                        <label for="password-confirmation" class="col-md-4 col-form-label text-md-end text-start">{{ __('Confirm Password') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="password-confirmation" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            @if ($errors->has('password'))
+                                <span class="text-danger">{{ $errors->first('password') }}</span>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="row mb-0">
+                    <div class="row mb-3">
+                        <label for="password-confirm" class="col-md-4 col-form-label text-md-end text-start">{{ __('Confirm Password') }}</label>
+
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" id="password-confirm" name="password_confirmation" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
-                                {{('Register') }}
+                                {{ __('Register') }}
                             </button>
                         </div>
                     </div>
                 </form>
-            </div>  
-
+            </div>
         </div>
     </div>
 </div>
