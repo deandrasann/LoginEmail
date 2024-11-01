@@ -31,14 +31,15 @@ Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.dest
 Route::get('/buku/{id}/edit', [BukuController::class, 'edit'])->name('buku.edit');
 Route::post('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
 Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
-Route::get('/send-email', [sendEmailController::class, 'index'])->name('send.email');
-Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
+// Route::get('/send-email', [sendEmailController::class, 'index'])->name('send.email');
+// Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
 
 // Routes untuk LoginRegisterController
 Route::controller(LoginRegisterController::class)->group(function() {
     // Register routes
     Route::get('/register', 'register')->name('register');
     Route::post('/register', 'store')->name('register.store');
+    Route::get('/isiEmail', 'isiemail')->name('isiemail');
 
     // Login routes
     Route::get('/login', 'login')->name('login');

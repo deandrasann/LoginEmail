@@ -51,8 +51,15 @@ class SendEmail extends Mailable
     // {
     //     return [];
     // }
-    public function build()    {
-        return $this->subject($this->data['subject'])->view('dashboard');
-
+    public function build()
+    {
+        return $this->subject($this->data['subject'])
+                    ->view('dashboard') // Sesuaikan dengan view yang diinginkan
+                    ->with([
+                        'name' => $this->data['name'],
+                        'email' => $this->data['email'],
+                        'faculty' => $this->data['faculty']
+                    ]);
     }
+
 }

@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Buku;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\SendMailJob;
+use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Hash as Hash;
 
 class LoginRegisterController extends Controller
@@ -37,6 +40,28 @@ class LoginRegisterController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+
+//      public function store(Request $request)
+// {
+//     $request->validate([
+//         'name' => 'required|string|max:255',
+//         'email' => 'required|email|unique:users,email',
+//         'faculty' => 'required|string|max:255',
+//         'password' => 'required|string|min:8|confirmed',
+//     ]);
+
+//     // Buat user baru
+//     $user = User::create([
+//         'name' => $request->name,
+//         'email' => $request->email,
+//         'faculty' => $request->faculty,
+//         'password' => Hash::make($request->password),
+//     ]);
+
+//     // Redirect ke view "dashboard" dengan data user
+//     return redirect()->route('send.email')->with('user', $user);
+// }
+
     public function store(Request $request)
     {
         // Validasi input
@@ -54,17 +79,41 @@ class LoginRegisterController extends Controller
             'faculty' => $request->faculty,
             'password' => Hash::make($request->password)
         ]);
+        $data = [
 
-        // Kirim email menggunakan job dengan objek pengguna
-        dispatch(new SendMailJob($user));
+        'subject' => 'Welcome to Our Application',
+        'name' => $user->name,
+        'email' => $user->email,
+        'faculty' => $user->faculty,
 
-        // Langsung login setelah registrasi
-        $credentials = $request->only('email', 'password');
-        Auth::attempt($credentials);
-        $request->session()->regenerate();
-        return redirect()->route('dashboard')
-            ->withSuccess('You have successfully registered & logged in!');
-    }
+    ];
+
+
+
+    dispatch(new SendMailJob($data));
+    return redirect()->route('isiemail')->with('user', $user);
+}
+
+
+public function isiEmail(){
+    return view('isiemail');
+}
+
+
+    //     return redirect()->route('send.email')
+    //     ->with('success', 'Email berhasil dikirim');
+
+
+    //     // Kirim email menggunakan job dengan objek pengguna
+    //     // dispatch(new SendMailJob($user));
+
+    //     // Langsung login setelah registrasi
+    //     // $credentials = $request->only('email', 'password');
+    //     // Auth::attempt($credentials);
+    //     // $request->session()->regenerate();
+    //     // return redirect()->route('dashboard')
+    //     //     ->withSuccess('You have successfully registered & logged in!');
+    // }
     public function login()
     {
         return view('login');

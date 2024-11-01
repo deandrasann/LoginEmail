@@ -4,9 +4,11 @@
     <title>Registration Successful</title>
 </head>
 <body>
-    <h1>Welcome, {{ $user->name }}!</h1>
-    <p>Thank you for registering with us.</p>
-    <p>If you have any questions, feel free to contact us at support@example.com.</p>
-    <p>Best Regards,<br>{{ config('app.name') }}</p>
+    <h2>Halo, {{ $name }}!</h2>
+    <p>Anda telah terdaftar!</p>
+    <ul>
+        <li>Email: {{ $email }}</li>
+        <li>Fakultas: {{ $faculty }}</li>
+    </ul>
 </body>
 </html>
