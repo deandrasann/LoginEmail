@@ -10,7 +10,7 @@
 </head>
 <body style="background-color: #F5F5F5">
 <a href="{{route('buku.create')}}" class="btn btn-primary float-end m-4"
-    style="width: 200px; height : 50px"> Tambah buku</a>    
+    style="width: 200px; height : 50px"> Tambah buku</a>
 <div class="container mt-5">
     <h2 class="text-center">Daftar Buku</h2>
     <form action="{{ route('buku.search') }}" method="get">
@@ -47,6 +47,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
+                <th>Gambar Buku</th>
                 <th>Judul Buku</th>
                 <th>Penulis</th>
                 <th>Harga</th>
@@ -58,6 +59,7 @@
             @foreach($data_buku as $index => $buku)
             <tr>
                 <td>{{ $buku->id }}</td>
+                <td><img src="{{asset('storage/flood.jpeg')}}"></td>
                 <td>{{ $buku->Judul }}</td>
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ 'Rp. '. number_format($buku->harga, 2, ',', '.') }}</td>

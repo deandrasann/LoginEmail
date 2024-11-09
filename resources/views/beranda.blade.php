@@ -14,6 +14,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
+                <td>Gambar</td>
                 <th>Judul Buku</th>
                 <th>Penulis</th>
                 <th>Harga</th>

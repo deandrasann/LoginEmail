@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use Illuminate\Pagination\Paginator;
 
-class BukuController extends Controller
+class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct()
-    {
-        $this->middleware('auth');
-    }
+        {
+            $this->middleware('admin');
+        }
     public function index()
     {
         $data_buku = Buku::all()->sortByDesc('id');
         $rowCount = Buku::count();
         $totalPrice = Buku::sum('harga');
-        return view('beranda', compact('data_buku', 'rowCount', 'totalPrice'));
+        return view('dashboard', compact('data_buku', 'rowCount', 'totalPrice'));
     }
 
 
@@ -115,6 +113,5 @@ public function search(Request $request)
         $buku->delete();
         return redirect()->route('index')->with('deleted', 'Data buku berhasil dihapus');;
     }
-
 
 }

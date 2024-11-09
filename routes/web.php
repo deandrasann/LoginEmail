@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\LoginRegisterController;
 use App\Http\Controllers\sendEmailController;
+use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,13 +26,7 @@ Route::get('/', function () {
 });
 
 // Routes untuk BukuController
-Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
-Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
-Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
-Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
-Route::get('/buku/{id}/edit', [BukuController::class, 'edit'])->name('buku.edit');
-Route::post('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
-Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+// Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
 // Route::get('/send-email', [sendEmailController::class, 'index'])->name('send.email');
 // Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');
 
@@ -44,11 +40,23 @@ Route::controller(LoginRegisterController::class)->group(function() {
     // Login routes
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'autenticate')->name('login.authenticate');
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    // Route::get('/dashboard', 'dashboard')->name('dashboard');
 
     // Beranda route
     Route::get('/beranda', 'beranda')->name('beranda');
 
     // Logout route
     Route::post('/logout', 'logout')->name('logout');
+
+    Route::group(['middleware' => ['admin']], function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+        Route::post('/buku', [AdminController::class, 'store'])->name('buku.store');
+        Route::get('/buku/create', [AdminController::class, 'create'])->name('buku.create');
+        Route::delete('/buku/{id}', [AdminController::class, 'destroy'])->name('buku.destroy');
+        Route::get('/buku/{id}/edit', [AdminController::class, 'edit'])->name('buku.edit');
+        Route::post('/buku/{id}', [AdminController::class, 'update'])->name('buku.update');
+        Route::get('/buku/search', [AdminController::class, 'search'])->name('buku.search');
+    });
+    Route::get('/welcome', [BukuController::class, 'index'])->name('buku.index')->middleware('auth');
+
 });
